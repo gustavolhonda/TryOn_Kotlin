@@ -9,33 +9,38 @@ import androidx.lifecycle.viewModelScope
 import com.example.atividadeavaliativa1.repository.UserRepository
 import kotlinx.coroutines.launch
 
+enum class LoginError {
+    NONE,
+    REQUIRED_FIELD,
+    WRONG_EMAIL,
+    WRONG_PASSWORD,
+    UNKNOWN
+}
+
+
 class MainViewModel(): ViewModel() {
     var username by mutableStateOf("")
-    var usernameError by mutableStateOf(false)
-    var usernameErrorMessage by mutableStateOf("")
+    var usernameError by mutableStateOf(LoginError.NONE)
     var password by mutableStateOf("")
-    var passwordError by mutableStateOf(false)
-    var passwordErrorMessage by mutableStateOf("")
+    var passwordError by mutableStateOf(LoginError.NONE)
     var isLoading by mutableStateOf(false)
     var isLoginSuccessful by mutableStateOf(false)
 
     val userRepository = UserRepository()
 
     fun performLogin() {
-        usernameError = false
-        passwordError = false
+        usernameError = LoginError.NONE
+        passwordError = LoginError.NONE
 
         username = username.trim()
 
         if (username == "") {
-            usernameError = true
-            usernameErrorMessage = "Este campo é obrigatório"
+            usernameError = LoginError.REQUIRED_FIELD
             return
         }
 
         if (password == "") {
-            passwordError = true
-            passwordErrorMessage = "Este campo é obrigatório"
+            passwordError = LoginError.REQUIRED_FIELD
             return
         }
 
@@ -45,22 +50,10 @@ class MainViewModel(): ViewModel() {
             isLoading = false
             Log.i("MainViewModel", "name: $username, password: $password, status: $status")
             when(status) {
-                "success" -> {
-                    Log.i("MainViewModel", "moving to main screen")
-                    isLoginSuccessful = true
-                }
-                "wrong_username" -> {
-                    usernameError = true
-                    usernameErrorMessage = "wrong user name"
-                }
-                "wrong_password" -> {
-                    passwordError = true
-                    passwordErrorMessage = "wrong password"
-                }
-                else -> {
-                    usernameError = true
-                    usernameErrorMessage = "Error: $status"
-                }
+                "success" -> isLoginSuccessful = true
+                "wrong_username" -> usernameError = LoginError.WRONG_EMAIL
+                "wrong_password" -> passwordError = LoginError.WRONG_PASSWORD
+                else -> usernameError = LoginError.UNKNOWN
             }
         }
     }

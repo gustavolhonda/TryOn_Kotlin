@@ -11,4 +11,8 @@
     <string name="login_register_text">Ainda não tem uma conta?</string>
     <string name="login_register_clickable_text"> Clique Aqui!</string>
     <string name="blank_input_error">Este campo é obrigatório</string>
+    <string name="error_required_field">Este campo é obrigatório</string>
+    <string name="error_wrong_username">Email incorreto</string>
+    <string name="error_wrong_password">Senha incorreta</string>
+    <string name="error_unknown">Erro desconhecido</string>
 </resources>

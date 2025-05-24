@@ -34,9 +34,7 @@ fun LoginScreen(
     val username by viewModel::username
     val password by viewModel::password
     val usernameError by viewModel::usernameError
-    val usernameErrorMessage by viewModel::usernameErrorMessage
     val passwordError by viewModel::passwordError
-    val passwordErrorMessage by viewModel::passwordErrorMessage
     val isLoading by viewModel::isLoading
     val isLoginSuccessful by viewModel::isLoginSuccessful
 
@@ -77,18 +75,30 @@ fun LoginScreen(
                 label = { Text(stringResource(R.string.email_input_label), fontFamily = robotoFontFamily) },
                 placeholder = { Text(stringResource(R.string.email_input_placeholder), fontFamily = robotoFontFamily) },
                 singleLine = true,
+                isError = usernameError != LoginError.NONE,
                 supportingText = {
-                    if (usernameError) {
-                        Text(
-                            text = usernameErrorMessage,
+                    when (val error = usernameError) {
+                        LoginError.REQUIRED_FIELD -> Text(
+                            text = stringResource(R.string.error_required_field),
                             color = MaterialTheme.colorScheme.error,
                             fontFamily = robotoFontFamily
                         )
+                        LoginError.WRONG_EMAIL -> Text(
+                            text = stringResource(R.string.error_wrong_username),
+                            color = MaterialTheme.colorScheme.error,
+                            fontFamily = robotoFontFamily
+                        )
+                        LoginError.UNKNOWN -> Text(
+                            text = stringResource(R.string.error_unknown),
+                            color = MaterialTheme.colorScheme.error,
+                            fontFamily = robotoFontFamily
+                        )
+                        else -> { /* nada a exibir */ }
                     }
                 },
-                isError = usernameError,
                 modifier = Modifier.fillMaxWidth()
             )
+
 
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -99,16 +109,27 @@ fun LoginScreen(
                 label = { Text(stringResource(R.string.password_input_label), fontFamily = robotoFontFamily) },
                 placeholder = { Text(stringResource(R.string.password_input_placeholder), fontFamily = robotoFontFamily) },
                 singleLine = true,
-                isError = passwordError,
+                isError = passwordError != LoginError.NONE,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 supportingText = {
-                    if (passwordError) {
-                        Text(
-                            text = passwordErrorMessage,
+                    when (val error = viewModel.passwordError) {
+                        LoginError.REQUIRED_FIELD -> Text(
+                            text = stringResource(R.string.error_required_field),
                             color = MaterialTheme.colorScheme.error,
                             fontFamily = robotoFontFamily
                         )
+                        LoginError.WRONG_PASSWORD -> Text(
+                            text = stringResource(R.string.error_wrong_password),
+                            color = MaterialTheme.colorScheme.error,
+                            fontFamily = robotoFontFamily
+                        )
+                        LoginError.UNKNOWN -> Text(
+                            text = stringResource(R.string.error_unknown),
+                            color = MaterialTheme.colorScheme.error,
+                            fontFamily = robotoFontFamily
+                        )
+                        else -> { /* nada a exibir */ }
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
