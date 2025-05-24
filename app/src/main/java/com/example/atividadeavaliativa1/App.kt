@@ -74,6 +74,6 @@ fun App (
 @Composable
 fun AppPreview() {
     AtividadeAvaliativa1Theme {
-        com.example.atividadeavaliativa1.App()
+       App()
     }
 }

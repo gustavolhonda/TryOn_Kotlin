@@ -77,18 +77,19 @@ fun LoginScreen(
                 label = { Text(stringResource(R.string.email_input_label), fontFamily = robotoFontFamily) },
                 placeholder = { Text(stringResource(R.string.email_input_placeholder), fontFamily = robotoFontFamily) },
                 singleLine = true,
+                supportingText = {
+                    if (usernameError) {
+                        Text(
+                            text = usernameErrorMessage,
+                            color = MaterialTheme.colorScheme.error,
+                            fontFamily = robotoFontFamily
+                        )
+                    }
+                },
                 isError = usernameError,
                 modifier = Modifier.fillMaxWidth()
             )
-            if (usernameError) {
-                Text(
-                    text = usernameErrorMessage,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(start = 16.dp),
-                    fontFamily = robotoFontFamily
-                )
-            }
+
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -101,17 +102,17 @@ fun LoginScreen(
                 isError = passwordError,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                supportingText = {
+                    if (passwordError) {
+                        Text(
+                            text = passwordErrorMessage,
+                            color = MaterialTheme.colorScheme.error,
+                            fontFamily = robotoFontFamily
+                        )
+                    }
+                },
                 modifier = Modifier.fillMaxWidth()
             )
-            if (passwordError) {
-                Text(
-                    text = passwordErrorMessage,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(start = 16.dp),
-                    fontFamily = robotoFontFamily
-                )
-            }
 
             Spacer(modifier = Modifier.height(24.dp))
 

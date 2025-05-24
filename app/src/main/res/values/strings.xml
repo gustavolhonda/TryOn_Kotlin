@@ -9,5 +9,6 @@
     <string name="enter_button_label">Entrar</string>
     <string name="login_forget_password_text">Esqueceu a senha? Clique aqui</string>
     <string name="login_register_text">Ainda não tem uma conta?</string>
-    <string name="login_register_clickable_text">Clique Aqui!</string>
+    <string name="login_register_clickable_text"> Clique Aqui!</string>
+    <string name="blank_input_error">Este campo é obrigatório</string>
 </resources>
