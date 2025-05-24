@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.login_kt2"
+    namespace = "com.example.atividadeavaliativa1"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.login_kt2"
+        applicationId = "com.example.atividadeavaliativa1"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -58,6 +58,9 @@ dependencies {
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.8.1")
+
 
     // Room dependencies
     // it needs kapt plugin -> id("kotlin-kapt")

@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Atividade Avaliativa 1</string>
+    <string name="login_welcome_text">Bem vindo ao TryOn!</string>
+    <string name="login_welcome_subtitle">Prove e Aprove</string>
+    <string name="email_input_label">Email</string>
+    <string name="email_input_placeholder">Insira o seu email</string>
+    <string name="password_input_label">Senha</string>
+    <string name="password_input_placeholder">Insira a sua senha</string>
+    <string name="enter_button_label">Entrar</string>
+    <string name="login_forget_password_text">Esqueceu a senha? Clique aqui</string>
+    <string name="login_register_text">Ainda não tem uma conta?</string>
+    <string name="login_register_clickable_text">Clique Aqui!</string>
 </resources>
