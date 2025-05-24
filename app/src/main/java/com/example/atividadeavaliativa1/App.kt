@@ -12,60 +12,45 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
+sealed class Screen(val route: String) {
+    object Login : Screen("login")
+    object Home : Screen("home")
+    object Orders : Screen("orders")
+    object Notifications : Screen("notifications")
+}
+
 @Composable
-fun App (
-    navController : NavHostController = rememberNavController(),
-    startingRoute : String = "login"
+fun App(
+    navController: NavHostController = rememberNavController(),
+    startingRoute: String = "login"
 ) {
     val context = LocalContext.current
     val activity = context as? Activity
     val scope = rememberCoroutineScope()
 
-    Scaffold() { innerPadding ->
+    Scaffold { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = startingRoute
         ) {
-            composable("login") {
+            composable(Screen.Login.route) {
                 LoginScreen(
                     onSuccessfulLogin = {
-                        navController.navigate("main") {
-                            popUpTo(navController.graph.startDestinationId) {
-                                inclusive = true
-                            }
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
                         }
-                    },
-                    onForgetPasswordButtonClick = {
-                        navController.navigate("forgetPassword")
-                    },
-                    onRegisterButtonClick = {
-                        navController.navigate("registerUser")
                     }
                 )
             }
-//            composable("main") {
-//                MainScreen(
-//                    navigateUp = {
-//                        scope.launch {
-//                            activity?.finish()
-//                        }
-//                    }
-//                )
-//            }
-//            composable("forgetPassword") {
-//                ForgetPasswordScreen(
-//                    navigateUp = {
-//                        navController.popBackStack()
-//                    }
-//                )
-//            }
-//            composable("registerUser") {
-//                RegisterUserScreen(
-//                    navigateUp = {
-//                        navController.popBackStack()
-//                    }
-//                )
-//            }
+            composable(Screen.Home.route) {
+                MainScreen(navController)
+            }
+            composable(Screen.Orders.route) {
+                MainScreen(navController)
+            }
+            composable(Screen.Notifications.route) {
+                MainScreen(navController)
+            }
         }
     }
 }
@@ -74,6 +59,6 @@ fun App (
 @Composable
 fun AppPreview() {
     AtividadeAvaliativa1Theme {
-       App()
+        App()
     }
 }
