@@ -60,7 +60,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation("androidx.compose.ui:ui-text-google-fonts:1.8.1")
-
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     // Room dependencies
     // it needs kapt plugin -> id("kotlin-kapt")
