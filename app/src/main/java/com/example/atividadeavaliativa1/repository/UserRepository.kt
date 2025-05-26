@@ -11,19 +11,26 @@ class UserRepository (val useTestUrl: Boolean = false) {
         client = if (useTestUrl) RetrofitInstance.testapi else RetrofitInstance.api
     }
 
-    // TODO: USE RESPONSE STATUS TOO
-    suspend fun login(username : String, password : String) : String {
-        try {
-            val res = client.login(UserData(username, password))
-            return when(res.message) {
-                "success" -> "success"
-                "unexisting username" -> "wrong_username"
-                "wrong password" -> "wrong_password"
-                else -> res.message
+    suspend fun login(username: String, password: String): String {
+        return try {
+            val response = client.login(UserData(username, password))
+            if (response.isSuccessful) {
+                val res = response.body()
+                when (res?.message) {
+                    "success" -> "success"
+                    else -> "unknown_success"
+                }
+            } else {
+                when (response.code()) {
+                    400 -> "missing_fields"
+                    404 -> "wrong_username"
+                    401 -> "wrong_password"
+                    else -> "error_${response.code()}"
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            return "failed_connection"
+            "failed_connection"
         }
     }
 }

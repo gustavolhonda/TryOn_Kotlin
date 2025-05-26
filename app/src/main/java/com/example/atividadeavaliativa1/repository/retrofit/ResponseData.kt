@@ -1,6 +1,5 @@
 package com.example.atividadeavaliativa1.repository.retrofit
 
-data class ResponseData(
-    val status: Number,
+data class LoginResponse(
     val message: String
 )
