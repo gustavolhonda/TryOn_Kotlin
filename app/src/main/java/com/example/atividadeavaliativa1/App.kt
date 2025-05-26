@@ -43,13 +43,13 @@ fun App(
                 )
             }
             composable(Screen.Home.route) {
-                MainScreen(navController)
+                NavBarLayout(navController)
             }
             composable(Screen.Orders.route) {
-                MainScreen(navController)
+                NavBarLayout(navController)
             }
             composable(Screen.Notifications.route) {
-                MainScreen(navController)
+                NavBarLayout(navController)
             }
         }
     }
