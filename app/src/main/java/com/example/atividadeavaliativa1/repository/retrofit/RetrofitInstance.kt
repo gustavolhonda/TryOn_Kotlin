@@ -27,4 +27,13 @@ object RetrofitInstance {
 
         retrofit.create(LoginApiInterface::class.java)
     }
+
+    val productApi: ProductApiInterface by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        retrofit.create(ProductApiInterface::class.java)
+    }
 }
