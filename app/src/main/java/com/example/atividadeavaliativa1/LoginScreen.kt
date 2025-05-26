@@ -26,7 +26,7 @@ import com.example.atividadeavaliativa1.ui.theme.robotoFontFamily
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel = viewModel(),
+    viewModel: LoginScreenViewModel = viewModel(),
     onSuccessfulLogin: () -> Unit = {},
     onForgetPasswordButtonClick: () -> Unit = {},
     onRegisterButtonClick: () -> Unit = {}

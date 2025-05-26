@@ -1,6 +1,5 @@
 package com.example.atividadeavaliativa1
 
-import android.util.Log // Importar Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -24,8 +23,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
 import com.example.atividadeavaliativa1.repository.retrofit.Product
-import com.example.atividadeavaliativa1.repository.retrofit.RetrofitInstance
-import kotlinx.coroutines.launch
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -33,24 +31,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.Alignment.Companion.TopEnd
+import androidx.compose.ui.res.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
-    var selectedTabIndex by remember { mutableStateOf(0) }
-    val tabTitles = listOf("Todos", "Promoções", "Lojas")
-    var products by remember { mutableStateOf<List<Product>>(emptyList()) }
-    val scope = rememberCoroutineScope()
+fun HomeScreen(
+    viewModel: HomeScreenViewModel = viewModel()
+) {
+    val selectedTabIndex by viewModel::selectedTabIndex
+    val tabTitles = viewModel.tabTitles
+    val products by viewModel::products
+    val isLoading by viewModel::isLoading
+    val error by viewModel::error
 
     LaunchedEffect(Unit) {
-        scope.launch {
-            try {
-                val fetchedProducts = RetrofitInstance.productApi.getProducts()
-                products = fetchedProducts
-            } catch (e: Exception) {
-                Log.e("HomeScreen", "Erro ao buscar produtos", e)
-            }
-        }
+        viewModel.loadProducts()
     }
 
     Column( 
@@ -69,7 +64,7 @@ fun HomeScreen() {
             IconButton(onClick = { /* fun */ }) {
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
-                    contentDescription = "Perfil",
+                    contentDescription = stringResource(R.string.home_profile_description),
                     tint = Color(0xFF5C4438)
                 )
             }
@@ -84,7 +79,7 @@ fun HomeScreen() {
             IconButton(onClick = { /* fun */ }) {
                 Icon(
                     imageVector = Icons.Default.Search,
-                    contentDescription = "Buscar",
+                    contentDescription = stringResource(R.string.home_search_description),
                     tint = Color(0xFF5C4438)
                 )
             }
@@ -105,15 +100,20 @@ fun HomeScreen() {
                 )
             }
         ) {
-            tabTitles.forEachIndexed { index, title ->
+            tabTitles.forEachIndexed { index, _ ->
                 Tab(
                     selected = selectedTabIndex == index,
-                    onClick = { selectedTabIndex = index },
+                    onClick = { viewModel.updateSelectedTab(index) },
                     selectedContentColor = Color(0xFF8B3A2E),
                     unselectedContentColor = Color(0xFF5C4438),
                     text = {
                         Text(
-                            text = title,
+                            text = when(index) {
+                                0 -> stringResource(R.string.home_tab_all)
+                                1 -> stringResource(R.string.home_tab_promotions)
+                                2 -> stringResource(R.string.home_tab_stores)
+                                else -> ""
+                            },
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
@@ -127,7 +127,7 @@ fun HomeScreen() {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Destaques",
+                text = stringResource(R.string.home_section_highlights),
                 style = MaterialTheme.typography.titleSmall
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -165,64 +165,28 @@ fun HomeScreen() {
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 8.dp)
         ) {
             Text(
-                text = "Produtos",
+                text = stringResource(R.string.home_section_products),
                 style = MaterialTheme.typography.titleSmall
             )
             Spacer(modifier = Modifier.height(12.dp))
 
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                // DESCOMENTAR PARA ANDROID VIEWER
-                // items(listOf(
-                //     Product(
-                //         id = 1,
-                //         name = "Vestido Floral",
-                //         price = 199.90,
-                //         shopName = "Loja da Maria",
-                //         shopCategory = "Moda Feminina",
-                //         description = "Vestido floral com manga curta",
-                //         rating = 4.5,
-                //         avaliableSizes = listOf("P", "M", "G"),
-                //         image = "https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"
-                //     ),
-                //     Product(
-                //         id = 2,
-                //         name = "Camisa Social",
-                //         price = 159.90,
-                //         shopName = "Loja do João",
-                //         shopCategory = "Moda Masculina",
-                //         description = "Camisa social azul marinho",
-                //         rating = 4.0,
-                //         avaliableSizes = listOf("M", "G", "GG"),
-                //         image = "https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"
-                //     ),
-                //     Product(
-                //         id = 3,
-                //         name = "Calça Jeans",
-                //         price = 249.90,
-                //         shopName = "Jeans Store",
-                //         shopCategory = "Moda Casual",
-                //         description = "Calça jeans skinny",
-                //         rating = 4.8,
-                //         avaliableSizes = listOf("38", "40", "42"),
-                //         image = "https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"
-                //     ),
-                //     Product(
-                //         id = 4,
-                //         name = "Tênis Casual",
-                //         price = 299.90,
-                //         shopName = "Shoes Store",
-                //         shopCategory = "Calçados",
-                //         description = "Tênis casual preto",
-                //         rating = 4.2,
-                //         avaliableSizes = listOf("38", "39", "40"),
-                //         image = "https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"
-                //     )
-                // ))
-                items(products)
-                { product ->
-                    ProductCard(product = product)
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            } else if (error != null) {
+                Text(
+                    text = stringResource(R.string.home_error_loading_products),
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            } else {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(products) { product ->
+                        ProductCard(product = product)
+                    }
                 }
             }
         }
@@ -233,7 +197,7 @@ fun HomeScreen() {
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 8.dp)
         ) {
             Text(
-                text = "Lojas",
+                text = stringResource(R.string.home_section_stores),
                 style = MaterialTheme.typography.titleSmall
             )
 
@@ -266,7 +230,7 @@ fun HomeScreen() {
                             ) {
                                 AsyncImage(
                                     model = lojas[i].second,
-                                    contentDescription = "Avatar",
+                                    contentDescription = stringResource(R.string.home_avatar_description),
                                     modifier = Modifier
                                         .size(40.dp)
                                         .padding(start = 12.dp)
@@ -283,7 +247,7 @@ fun HomeScreen() {
                                         color = Color.Black
                                     )
                                     Text(
-                                        text = "Loja de roupas",
+                                        text = stringResource(R.string.home_store_category),
                                         style = MaterialTheme.typography.bodySmall.copy(
                                             fontSize = 8.sp
                                         ),
@@ -292,7 +256,7 @@ fun HomeScreen() {
                                 }
                                 AsyncImage(
                                     model = bgUrl,
-                                    contentDescription = "Background",
+                                    contentDescription = stringResource(R.string.home_background_description),
                                     modifier = Modifier
                                         .fillMaxHeight()
                                         .width(70.dp)
@@ -321,7 +285,7 @@ fun HomeScreen() {
                             ) {
                                 AsyncImage(
                                     model = lojas[i].second,
-                                    contentDescription = "Avatar",
+                                    contentDescription = stringResource(R.string.home_avatar_description),
                                     modifier = Modifier
                                         .size(40.dp)
                                         .padding(start = 12.dp)
@@ -338,7 +302,7 @@ fun HomeScreen() {
                                         color = Color.Black
                                     )
                                     Text(
-                                        text = "Loja de roupas",
+                                        text = stringResource(R.string.home_store_category),
                                         style = MaterialTheme.typography.bodySmall.copy(
                                             fontSize = 8.sp
                                         ),
@@ -347,7 +311,7 @@ fun HomeScreen() {
                                 }
                                 AsyncImage(
                                     model = bgUrl,
-                                    contentDescription = "Background",
+                                    contentDescription = stringResource(R.string.home_background_description),
                                     modifier = Modifier
                                         .fillMaxHeight()
                                         .width(70.dp)
@@ -360,7 +324,6 @@ fun HomeScreen() {
                 }
             }
         }
-
     }
 }
 
@@ -400,7 +363,7 @@ fun ProductCard(product: Product, modifier: Modifier = Modifier) {
             ) {
                 Icon(
                     imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
-                    contentDescription = "Favoritar",
+                    contentDescription = stringResource(R.string.home_favorite_description),
                     tint = Color(0xFF8B3A2E)
                 )
             }
@@ -431,7 +394,7 @@ fun ProductCard(product: Product, modifier: Modifier = Modifier) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     AsyncImage(
                         model = "https://i0.wp.com/assets.b9.com.br/wp-content/uploads/2020/07/B.png?fit=554%2C673&ssl=1",
-                        contentDescription = "Loja",
+                        contentDescription = stringResource(R.string.home_store_description),
                         modifier = Modifier.size(20.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))

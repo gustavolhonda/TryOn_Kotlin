@@ -18,7 +18,7 @@ enum class LoginError {
 }
 
 
-class MainViewModel(): ViewModel() {
+class LoginScreenViewModel(): ViewModel() {
     var username by mutableStateOf("")
     var usernameError by mutableStateOf(LoginError.NONE)
     var password by mutableStateOf("")
@@ -48,7 +48,7 @@ class MainViewModel(): ViewModel() {
             isLoading = true
             val status = userRepository.login(username, password)
             isLoading = false
-            Log.i("MainViewModel", "name: $username, password: $password, status: $status")
+            Log.i("LoginScreenViewModel", "name: $username, password: $password, status: $status")
             when(status) {
                 "success" -> isLoginSuccessful = true
                 "wrong_username" -> usernameError = LoginError.WRONG_EMAIL

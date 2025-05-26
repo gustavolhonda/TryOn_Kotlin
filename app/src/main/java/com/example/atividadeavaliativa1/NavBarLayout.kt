@@ -12,7 +12,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavController) {
+fun NavBarLayout(navController: NavController) {
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
     var selectedItem by remember { mutableStateOf(0) }
 

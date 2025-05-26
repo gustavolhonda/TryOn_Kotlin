@@ -15,4 +15,19 @@
     <string name="error_wrong_username">Email incorreto</string>
     <string name="error_wrong_password">Senha incorreta</string>
     <string name="error_unknown">Erro desconhecido</string>
+
+    <string name="home_tab_all">Todos</string>
+    <string name="home_tab_promotions">Promoções</string>
+    <string name="home_tab_stores">Lojas</string>
+    <string name="home_section_highlights">Destaques</string>
+    <string name="home_section_products">Produtos</string>
+    <string name="home_section_stores">Lojas</string>
+    <string name="home_store_category">Loja de roupas</string>
+    <string name="home_error_loading_products">Erro ao carregar produtos</string>
+    <string name="home_profile_description">Perfil</string>
+    <string name="home_search_description">Buscar</string>
+    <string name="home_favorite_description">Favoritar</string>
+    <string name="home_store_description">Loja</string>
+    <string name="home_background_description">Background</string>
+    <string name="home_avatar_description">Avatar</string>
 </resources>
