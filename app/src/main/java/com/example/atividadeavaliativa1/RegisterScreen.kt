@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotificationsScreen() {
+fun RegisterScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -19,8 +19,8 @@ fun NotificationsScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(R.string.notification_page_title),
+            text = stringResource(R.string.register_page_title),
             style = MaterialTheme.typography.headlineMedium
         )
     }
-} 
+}

@@ -30,4 +30,9 @@
     <string name="home_store_description">Loja</string>
     <string name="home_background_description">Background</string>
     <string name="home_avatar_description">Avatar</string>
+    <string name="notification_page_title">Suas notificações</string>
+    <string name="orders_page_title">Seus Pedidos</string>
+    <string name="register_page_title">Registrar novo usuário</string>
+    <string name="forget_password_page_title">Esqueci minha senha</string>
+
 </resources>

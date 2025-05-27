@@ -5,6 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,7 +19,7 @@ fun OrdersScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Seus Pedidos",
+            text = stringResource(R.string.orders_page_title),
             style = MaterialTheme.typography.headlineMedium
         )
     }

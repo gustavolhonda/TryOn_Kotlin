@@ -17,6 +17,8 @@ sealed class Screen(val route: String) {
     object Home : Screen("home")
     object Orders : Screen("orders")
     object Notifications : Screen("notifications")
+    object RegisterUser: Screen("register_user")
+    object ForgetPassword: Screen("forget_password")
 }
 
 @Composable
@@ -39,6 +41,12 @@ fun App(
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
+                    },
+                    onForgetPasswordButtonClick = {
+                        navController.navigate(Screen.ForgetPassword.route)
+                    },
+                    onRegisterButtonClick = {
+                        navController.navigate(Screen.RegisterUser.route)
                     }
                 )
             }
@@ -50,6 +58,12 @@ fun App(
             }
             composable(Screen.Notifications.route) {
                 NavBarLayout(navController)
+            }
+            composable(Screen.ForgetPassword.route) {
+                ForgetPasswordScreen()
+            }
+            composable(Screen.RegisterUser.route) {
+                RegisterScreen()
             }
         }
     }
