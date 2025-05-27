@@ -32,10 +32,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    navController: NavController,
+    productViewModel: ProductViewModel = viewModel(),
     viewModel: HomeScreenViewModel = viewModel()
 ) {
     val selectedTabIndex by viewModel::selectedTabIndex
@@ -185,7 +190,7 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(products) { product ->
-                        ProductCard(product = product)
+                        ProductCard(product = product, navController, productViewModel)
                     }
                 }
             }
@@ -330,15 +335,24 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    val navController: NavHostController = rememberNavController()
+    HomeScreen(navController)
 }
 
 @Composable
-fun ProductCard(product: Product, modifier: Modifier = Modifier) {
+fun ProductCard(
+    product: Product,
+    navController: NavController,
+    productViewModel: ProductViewModel,
+    modifier: Modifier = Modifier
+) {
     var isFavorite by remember { mutableStateOf(false) }
 
     Card(
-        onClick = {/* Depois fazer abrir pagina do produto */},
+        onClick = {
+            productViewModel.selectProduct(product)
+            navController.navigate(Screen.Product.route)
+        },
         modifier = modifier
             .width(160.dp),
         shape = RoundedCornerShape(8.dp),

@@ -80,7 +80,7 @@ fun NavBarLayout(navController: NavController) {
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when (currentRoute) {
-                Screen.Home.route -> HomeScreen()
+                Screen.Home.route -> HomeScreen(navController)
                 Screen.Orders.route -> OrdersScreen()
                 Screen.Notifications.route -> NotificationsScreen()
             }

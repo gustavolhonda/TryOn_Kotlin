@@ -1,24 +1,28 @@
 package com.example.atividadeavaliativa1
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atividadeavaliativa1.ui.theme.AtividadeAvaliativa1Theme
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.delay
 
 sealed class Screen(val route: String) {
     object Login : Screen("login")
     object Home : Screen("home")
     object Orders : Screen("orders")
     object Notifications : Screen("notifications")
-    object RegisterUser: Screen("register_user")
-    object ForgetPassword: Screen("forget_password")
+    object RegisterUser : Screen("register_user")
+    object ForgetPassword : Screen("forget_password")
+    object Product : Screen("product")
 }
 
 @Composable
@@ -26,10 +30,6 @@ fun App(
     navController: NavHostController = rememberNavController(),
     startingRoute: String = "login"
 ) {
-    val context = LocalContext.current
-    val activity = context as? Activity
-    val scope = rememberCoroutineScope()
-
     Scaffold { innerPadding ->
         NavHost(
             navController = navController,
@@ -64,6 +64,25 @@ fun App(
             }
             composable(Screen.RegisterUser.route) {
                 RegisterScreen()
+            }
+            composable(Screen.Product.route) {
+                val productViewModel: ProductViewModel = viewModel()
+                val product = productViewModel.selectedProduct.collectAsState().value
+
+                LaunchedEffect(product) {
+                    Log.d("ProductScreen", "Produto atual no ViewModel: ${product?.name ?: "null"}")
+                }
+
+
+                if (product != null) {
+                    ProductScreen(product)
+                } else {
+                    LaunchedEffect(Unit) {
+                        if (!navController.popBackStack()) {
+                            navController.navigate(Screen.Home.route)
+                        }
+                    }
+                }
             }
         }
     }
