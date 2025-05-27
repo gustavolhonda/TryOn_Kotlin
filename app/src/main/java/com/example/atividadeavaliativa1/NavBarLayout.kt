@@ -12,7 +12,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavBarLayout(navController: NavController) {
+fun NavBarLayout(navController: NavController, productViewModel: ProductViewModel) {
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
     var selectedItem by remember { mutableStateOf(0) }
 
@@ -80,7 +80,7 @@ fun NavBarLayout(navController: NavController) {
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when (currentRoute) {
-                Screen.Home.route -> HomeScreen(navController)
+                Screen.Home.route -> HomeScreen(navController, productViewModel)
                 Screen.Orders.route -> OrdersScreen()
                 Screen.Notifications.route -> NotificationsScreen()
             }

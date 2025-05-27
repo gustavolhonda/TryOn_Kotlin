@@ -16,7 +16,6 @@ class ProductViewModel(): ViewModel() {
 
     //  única forma segura de modificar o valor de _selectedProduct.
     fun selectProduct(product: Product) {
-        Log.d("ProductViewModel", "Produto selecionado: ${product.name} (id: ${product.id})")
         _selectedProduct.value = product
     }
 }

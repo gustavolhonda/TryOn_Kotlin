@@ -13,7 +13,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import kotlinx.coroutines.delay
 
 sealed class Screen(val route: String) {
     object Login : Screen("login")
@@ -30,6 +29,9 @@ fun App(
     navController: NavHostController = rememberNavController(),
     startingRoute: String = "login"
 ) {
+
+    val productViewModel: ProductViewModel = viewModel()
+
     Scaffold { innerPadding ->
         NavHost(
             navController = navController,
@@ -51,13 +53,13 @@ fun App(
                 )
             }
             composable(Screen.Home.route) {
-                NavBarLayout(navController)
+                NavBarLayout(navController, productViewModel)
             }
             composable(Screen.Orders.route) {
-                NavBarLayout(navController)
+                NavBarLayout(navController, productViewModel)
             }
             composable(Screen.Notifications.route) {
-                NavBarLayout(navController)
+                NavBarLayout(navController, productViewModel)
             }
             composable(Screen.ForgetPassword.route) {
                 ForgetPasswordScreen()
@@ -66,13 +68,7 @@ fun App(
                 RegisterScreen()
             }
             composable(Screen.Product.route) {
-                val productViewModel: ProductViewModel = viewModel()
                 val product = productViewModel.selectedProduct.collectAsState().value
-
-                LaunchedEffect(product) {
-                    Log.d("ProductScreen", "Produto atual no ViewModel: ${product?.name ?: "null"}")
-                }
-
 
                 if (product != null) {
                     ProductScreen(product)
