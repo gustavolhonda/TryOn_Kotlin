@@ -1,7 +1,5 @@
 package com.example.atividadeavaliativa1
 
-import android.app.Activity
-import android.util.Log
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -71,7 +69,7 @@ fun App(
                 val product = productViewModel.selectedProduct.collectAsState().value
 
                 if (product != null) {
-                    ProductScreen(product)
+                    ProductScreen(product, productViewModel, onBackClick = { navController.popBackStack() })
                 } else {
                     LaunchedEffect(Unit) {
                         if (!navController.popBackStack()) {

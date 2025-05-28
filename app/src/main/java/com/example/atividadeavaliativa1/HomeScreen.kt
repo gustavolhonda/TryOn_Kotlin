@@ -74,7 +74,7 @@ fun HomeScreen(
                 )
             }
             Text(
-                text = "Alameda dos Miosótis",
+                text = stringResource(R.string.home_tab_address),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
                 color = Color(0xFF5C4438),
@@ -363,7 +363,7 @@ fun ProductCard(
             .height(140.dp)
         ) {
             AsyncImage(
-                model = product.image,
+                model = product.image[0],
                 contentDescription = product.name,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop

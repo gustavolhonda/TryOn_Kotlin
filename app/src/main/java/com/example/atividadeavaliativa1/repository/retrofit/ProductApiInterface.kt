@@ -16,5 +16,6 @@ data class Product(
     val description: String,
     val rating: Double,
     val avaliableSizes: List<String>,
-    val image: String?
+    val image: List<String>,
+    val isFavorite: Boolean?
 ) 

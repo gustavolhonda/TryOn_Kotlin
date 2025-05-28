@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -22,8 +23,8 @@ fun NavBarLayout(navController: NavController, productViewModel: ProductViewMode
                 containerColor = Color(0xFFFCEAE5)
             ) {
                 NavigationBarItem(
-                    icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-                    label = { Text("Home") },
+                    icon = { Icon(Icons.Filled.Home, contentDescription = stringResource(R.string.navbar_home_description)) },
+                    label = { Text(stringResource(R.string.navbar_home_description)) },
                     selected = currentRoute == Screen.Home.route,
                     onClick = {
                         selectedItem = 0
@@ -40,8 +41,8 @@ fun NavBarLayout(navController: NavController, productViewModel: ProductViewMode
                     )
                 )
                 NavigationBarItem(
-                    icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = "Pedidos") },
-                    label = { Text("Pedidos") },
+                    icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = stringResource(R.string.navbar_orders_description)) },
+                    label = { Text(stringResource(R.string.navbar_orders_description)) },
                     selected = currentRoute == Screen.Orders.route,
                     onClick = {
                         selectedItem = 1
@@ -58,8 +59,8 @@ fun NavBarLayout(navController: NavController, productViewModel: ProductViewMode
                     )
                 )
                 NavigationBarItem(
-                    icon = { Icon(Icons.Filled.Notifications, contentDescription = "Notificações") },
-                    label = { Text("Notificações") },
+                    icon = { Icon(Icons.Filled.Notifications, contentDescription = stringResource(R.string.navbar_notifications_description)) },
+                    label = { Text(stringResource(R.string.navbar_notifications_description)) },
                     selected = currentRoute == Screen.Notifications.route,
                     onClick = {
                         selectedItem = 2

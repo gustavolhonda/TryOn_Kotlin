@@ -34,5 +34,16 @@
     <string name="orders_page_title">Seus Pedidos</string>
     <string name="register_page_title">Registrar novo usuário</string>
     <string name="forget_password_page_title">Esqueci minha senha</string>
+    <string name="product_screen_page_back_button_content_description">Voltar</string>
+    <string name="product_screen_favorite_description">Favorito</string>
+    <string name="product_screen_not_favorite_description">Não favorito</string>
+    <string name="product_screen_rating_description">Avaliação</string>
+    <string name="product_screen_choose_size">Escolha o tamanho</string>
+    <string name="product_screen_add_to_cart">Adicionar ao carrinho</string>
+    <string name="product_screen_price_format">R$ %.2f</string>
+    <string name="navbar_home_description">Home</string>
+    <string name="navbar_orders_description">Pedidos</string>
+    <string name="navbar_notifications_description">Notificações</string>
+    <string name="home_tab_address">Alameda dos Miosótis</string>
 
 </resources>
