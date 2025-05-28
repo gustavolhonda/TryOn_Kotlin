@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.atividadeavaliativa1.repository.retrofit.Product
+import com.example.atividadeavaliativa1.room.CartItem
 import com.example.atividadeavaliativa1.ui.theme.AtividadeAvaliativa1Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,8 +30,7 @@ import com.example.atividadeavaliativa1.ui.theme.AtividadeAvaliativa1Theme
 fun OrdersScreen(
     viewModel: OrdersScreenViewModel = viewModel()
 ) {
-    val quantities by viewModel::quantities
-    val orders = viewModel.orders
+    val cartItems by viewModel.cartItems.collectAsState()
     val totalPrice by viewModel::totalPrice
 
     Column(
@@ -77,12 +76,11 @@ fun OrdersScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp)
         ) {
-            orders.forEach { product ->
+            cartItems.forEach { item ->
                 OrderItem(
-                    product = product,
-                    quantity = quantities[product.id] ?: 1,
-                    onIncrease = { viewModel.increaseQuantity(product.id) },
-                    onDecrease = { viewModel.decreaseQuantity(product.id) }
+                    item = item,
+                    onIncrease = { viewModel.increaseQuantity(item.id) },
+                    onDecrease = { viewModel.decreaseQuantity(item.id) }
                 )
                 Spacer(modifier = Modifier.height(12.dp))
             }
@@ -96,8 +94,7 @@ fun OrdersScreen(
 
 @Composable
 fun OrderItem(
-    product: Product,
-    quantity: Int,
+    item: CartItem,
     onIncrease: () -> Unit,
     onDecrease: () -> Unit
 ) {
@@ -110,8 +107,8 @@ fun OrderItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
-            model = product.image.first(),
-            contentDescription = product.name,
+            model = item.imageUrl,
+            contentDescription = item.name,
             modifier = Modifier
                 .size(48.dp)
                 .clip(RoundedCornerShape(8.dp)),
@@ -121,12 +118,17 @@ fun OrderItem(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = product.name,
+                text = item.name,
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                 color = Color(0xFF3A2D4D)
             )
             Text(
-                text = "R$%.2f".format(product.price),
+                text = "R$%.2f".format(item.price),
+                style = MaterialTheme.typography.bodySmall,
+                color = Color(0xFF3A2D4D)
+            )
+            Text(
+                text = "Tamanho: ${item.size}",
                 style = MaterialTheme.typography.bodySmall,
                 color = Color(0xFF3A2D4D)
             )
@@ -150,7 +152,7 @@ fun OrderItem(
                 )
             }
             Text(
-                text = quantity.toString(),
+                text = item.quantity.toString(),
                 modifier = Modifier.padding(horizontal = 8.dp),
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                 color = Color(0xFF3A2D4D)

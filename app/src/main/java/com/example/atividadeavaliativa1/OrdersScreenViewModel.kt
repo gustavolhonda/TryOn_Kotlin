@@ -1,80 +1,53 @@
 package com.example.atividadeavaliativa1
 
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.lifecycle.ViewModel
-import com.example.atividadeavaliativa1.repository.retrofit.Product
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.atividadeavaliativa1.room.CartItem
+import com.example.atividadeavaliativa1.repository.CartRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-val mockOrders = listOf(
-    Product(
-        id = 1,
-        name = "Product 1",
-        price = 100.0,
-        shopName = "Shop 1",
-        shopCategory = "Category 1",
-        description = "Description of Product 1",
-        rating = 4.5,
-        avaliableSizes = listOf("S", "M", "L"),
-        image = listOf("https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"),
-        isFavorite = false,
-    ),
-    Product(
-        id = 2,
-        name = "Product 2",
-        price = 200.0,
-        shopName = "Shop 2",
-        shopCategory = "Category 2",
-        description = "Description of Product 2",
-        rating = 4.0,
-        avaliableSizes = listOf("M", "L", "XL"),
-        image = listOf("https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"),
-        isFavorite = false,
-    ),
-    Product(
-        id = 3,
-        name = "Product 3",
-        price = 300.0,
-        shopName = "Shop 3",
-        shopCategory = "Category 3",
-        description = "Description of Product 3",
-        rating = 4.0,
-        avaliableSizes = listOf("M", "L", "XL"),
-        image = listOf("https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"),
-        isFavorite = false,
-    ),
-    Product(
-        id = 4,
-        name = "Product 4",
-        price = 400.0,
-        shopName = "Shop 4",
-        shopCategory = "Category 4",
-        description = "Description of Product 4",
-        rating = 4.0,
-        avaliableSizes = listOf("M", "L", "XL"),
-        image = listOf("https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"),
-        isFavorite = false,
-    )
-)
+class OrdersScreenViewModel(application: Application) : AndroidViewModel(application) {
+    private val cartRepository = CartRepository(application)
+    
+    private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
+    val cartItems: StateFlow<List<CartItem>> = _cartItems
 
-class OrdersScreenViewModel : ViewModel() {
-    val quantities = mutableStateMapOf<Int, Int>().apply {
-        putAll(mockOrders.associate { it.id to 1 })
+    init {
+        viewModelScope.launch {
+            cartRepository.getAllCartItems().collectLatest { items ->
+                _cartItems.value = items
+            }
+        }
     }
-
-    val orders = mockOrders
 
     val totalPrice: Double
-        get() = orders.sumOf { product ->
-            (quantities[product.id]?.toDouble() ?: 0.0) * product.price
+        get() = _cartItems.value.sumOf { item ->
+            item.price * item.quantity
         }
 
-    fun increaseQuantity(productId: Int) {
-        quantities[productId] = (quantities[productId] ?: 0) + 1
+    fun increaseQuantity(itemId: Long) {
+        viewModelScope.launch {
+            _cartItems.value.find { it.id == itemId }?.let { item ->
+                val updatedItem = item.copy(quantity = item.quantity + 1)
+                cartRepository.updateCartItem(updatedItem)
+            }
+        }
     }
 
-    fun decreaseQuantity(productId: Int) {
-        val currentQuantity = quantities[productId] ?: 0
-        if (currentQuantity > 1) {
-            quantities[productId] = currentQuantity - 1
+    fun decreaseQuantity(itemId: Long) {
+        viewModelScope.launch {
+            _cartItems.value.find { it.id == itemId }?.let { item ->
+                if (item.quantity > 1) {
+                    val updatedItem = item.copy(quantity = item.quantity - 1)
+                    cartRepository.updateCartItem(updatedItem)
+                } else {
+                    cartRepository.removeFromCart(item)
+                }
+            }
         }
     }
 }
