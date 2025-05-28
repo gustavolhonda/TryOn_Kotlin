@@ -9,7 +9,7 @@ interface CartItemDao {
     fun getAllCartItems(): Flow<List<CartItem>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCartItem(cartItem: CartItem)
+    suspend fun insertCartItem(cartItem: CartItem): Long
 
     @Delete
     suspend fun deleteCartItem(cartItem: CartItem)
