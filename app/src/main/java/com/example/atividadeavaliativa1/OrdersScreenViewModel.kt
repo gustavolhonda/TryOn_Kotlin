@@ -14,7 +14,8 @@ val mockOrders = listOf(
         description = "Description of Product 1",
         rating = 4.5,
         avaliableSizes = listOf("S", "M", "L"),
-        image = "https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"
+        image = listOf("https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"),
+        isFavorite = false,
     ),
     Product(
         id = 2,
@@ -25,7 +26,8 @@ val mockOrders = listOf(
         description = "Description of Product 2",
         rating = 4.0,
         avaliableSizes = listOf("M", "L", "XL"),
-        image = "https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"
+        image = listOf("https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"),
+        isFavorite = false,
     ),
     Product(
         id = 3,
@@ -36,7 +38,8 @@ val mockOrders = listOf(
         description = "Description of Product 3",
         rating = 4.0,
         avaliableSizes = listOf("M", "L", "XL"),
-        image = "https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"
+        image = listOf("https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"),
+        isFavorite = false,
     ),
     Product(
         id = 4,
@@ -47,7 +50,8 @@ val mockOrders = listOf(
         description = "Description of Product 4",
         rating = 4.0,
         avaliableSizes = listOf("M", "L", "XL"),
-        image = "https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"
+        image = listOf("https://m.media-amazon.com/images/I/41Tbr4iFggL._AC_.jpg"),
+        isFavorite = false,
     )
 )
 
@@ -57,6 +61,11 @@ class OrdersScreenViewModel : ViewModel() {
     }
 
     val orders = mockOrders
+
+    val totalPrice: Double
+        get() = orders.sumOf { product ->
+            (quantities[product.id]?.toDouble() ?: 0.0) * product.price
+        }
 
     fun increaseQuantity(productId: Int) {
         quantities[productId] = (quantities[productId] ?: 0) + 1

@@ -32,6 +32,8 @@
     <string name="home_avatar_description">Avatar</string>
     <string name="notification_page_title">Suas notificações</string>
     <string name="cart_page_title">Carrinho</string>
+    <string name="cart_page_total">Total</string>
+    <string name="cart_page_checkout">Pagar</string>
     <string name="register_page_title">Registrar novo usuário</string>
     <string name="forget_password_page_title">Esqueci minha senha</string>
     <string name="product_screen_page_back_button_content_description">Voltar</string>

@@ -31,7 +31,9 @@
     <string name="home_background_description">Background</string>
     <string name="home_avatar_description">Avatar</string>
     <string name="notification_page_title">Your notifications</string>
-    <string name="orders_page_title">Your orders</string>
+    <string name="cart_page_title">Cart</string>
+    <string name="cart_page_total">Total</string>
+    <string name="cart_page_checkout">Checkout</string>
     <string name="register_page_title">Register new user</string>
     <string name="forget_password_page_title">Forgot my password</string>
     <string name="product_screen_page_back_button_content_description">Back</string>

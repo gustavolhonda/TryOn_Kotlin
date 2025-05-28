@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atividadeavaliativa1.repository.retrofit.Product
+import com.example.atividadeavaliativa1.ui.theme.AtividadeAvaliativa1Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,6 +32,7 @@ fun OrdersScreen(
 ) {
     val quantities by viewModel::quantities
     val orders = viewModel.orders
+    val totalPrice by viewModel::totalPrice
 
     Column(
         modifier = Modifier
@@ -85,6 +87,10 @@ fun OrdersScreen(
                 Spacer(modifier = Modifier.height(12.dp))
             }
         }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        CheckoutBottomBar(totalPrice)
     }
 }
 
@@ -104,7 +110,7 @@ fun OrderItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
-            model = product.image,
+            model = product.image.first(),
             contentDescription = product.name,
             modifier = Modifier
                 .size(48.dp)
@@ -166,6 +172,42 @@ fun OrderItem(
             }
         }
     }
+}
+
+@Composable
+fun CheckoutBottomBar(totalPrice: Double) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFFEFB8C8), RoundedCornerShape(16.dp))
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column {
+            Text(
+                text = stringResource(R.string.cart_page_total),
+                style = MaterialTheme.typography.bodySmall,
+                color = Color(0xFF5C4438)
+            )
+            Text(
+                text = "R$%.2f".format(totalPrice),
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                color = Color(0xFF3A2D4D)
+            )
+        }
+        Button(
+            onClick = { /* fun */ },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFF8F6)),
+            shape = RoundedCornerShape(50)
+        ) {
+            Text(
+                text = stringResource(R.string.cart_page_checkout),
+                color = Color(0xFF8B3A2E)
+            )
+        }
+    }
+    Spacer(modifier = Modifier.height(4.dp))
 }
 
 @Preview(showBackground = true)
