@@ -1,4 +1,4 @@
-package com.example.atividadeavaliativa1
+package com.example.atividadeavaliativa1.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

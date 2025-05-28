@@ -11,6 +11,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.atividadeavaliativa1.screens.ForgetPasswordScreen
+import com.example.atividadeavaliativa1.screens.LoginScreen
+import com.example.atividadeavaliativa1.screens.ProductScreen
+import com.example.atividadeavaliativa1.screens.RegisterScreen
+import com.example.atividadeavaliativa1.viewmodels.ProductViewModel
 
 sealed class Screen(val route: String) {
     object Login : Screen("login")

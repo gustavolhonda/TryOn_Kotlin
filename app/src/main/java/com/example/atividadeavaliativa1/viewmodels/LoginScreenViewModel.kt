@@ -1,4 +1,4 @@
-package com.example.atividadeavaliativa1
+package com.example.atividadeavaliativa1.viewmodels
 
 import android.util.Log
 import androidx.compose.runtime.getValue

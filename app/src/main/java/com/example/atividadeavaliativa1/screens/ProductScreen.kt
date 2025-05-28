@@ -1,4 +1,4 @@
-package com.example.atividadeavaliativa1
+package com.example.atividadeavaliativa1.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.border
@@ -24,6 +24,8 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import com.example.atividadeavaliativa1.viewmodels.ProductViewModel
+import com.example.atividadeavaliativa1.R
 import com.example.atividadeavaliativa1.repository.retrofit.Product
 
 @SuppressLint("DefaultLocale")

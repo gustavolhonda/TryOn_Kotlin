@@ -1,4 +1,4 @@
-package com.example.atividadeavaliativa1
+package com.example.atividadeavaliativa1.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -35,6 +35,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.atividadeavaliativa1.viewmodels.HomeScreenViewModel
+import com.example.atividadeavaliativa1.viewmodels.ProductViewModel
+import com.example.atividadeavaliativa1.R
+import com.example.atividadeavaliativa1.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
