@@ -8,8 +8,7 @@ class ProductRepository(val useTestUrl: Boolean = false) {
     private var client: ProductApiInterface
 
     init {
-        // client = if (useTestUrl) RetrofitInstance.testProductApi else RetrofitInstance.productApi
-        client = RetrofitInstance.productApi
+        client = if (useTestUrl) RetrofitInstance.productApiTest else RetrofitInstance.productApi
     }
 
     suspend fun getProducts(): List<Product> {

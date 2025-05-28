@@ -36,4 +36,13 @@ object RetrofitInstance {
 
         retrofit.create(ProductApiInterface::class.java)
     }
+
+    val productApiTest: ProductApiInterface by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(TO_TEST_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        retrofit.create(ProductApiInterface::class.java)
+    }
 }
