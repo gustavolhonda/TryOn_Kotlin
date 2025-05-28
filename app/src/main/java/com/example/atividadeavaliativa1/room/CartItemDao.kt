@@ -10,4 +10,7 @@ interface CartItemDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCartItem(cartItem: CartItem)
-}
+
+    @Delete
+    suspend fun deleteCartItem(cartItem: CartItem)
+} 

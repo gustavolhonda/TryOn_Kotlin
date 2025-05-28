@@ -16,7 +16,8 @@ data class CartItem(
     val description: String,
     val rating: Double,
     val size: String,
-    val imageUrl: String
+    val imageUrl: String,
+    val quantity: Int = 1
 ) {
     companion object {
         fun fromProduct(product: Product, size: String): CartItem {
