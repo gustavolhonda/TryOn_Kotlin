@@ -97,13 +97,12 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
         _selectedSize.value = size
     }
 
+
     fun setSelectedImage(imageUrl: String?) {
         _selectedImage.value = imageUrl
     }
 
     fun initializeSelectedImage(imageUrl: String?) {
-        if (_selectedImage.value == null) {
-            _selectedImage.value = imageUrl
-        }
+        _selectedImage.value = imageUrl
     }
 }

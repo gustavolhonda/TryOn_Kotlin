@@ -33,7 +33,7 @@ fun ProductScreen(
     productViewModel: ProductViewModel,
     onBackClick: () -> Unit
 ) {
-    LaunchedEffect(product) {
+    LaunchedEffect(product.id) {
         productViewModel.initializeSelectedImage(product.image.firstOrNull())
         productViewModel.initFavorite(product.id, product.isFavorite ?: false)
     }
