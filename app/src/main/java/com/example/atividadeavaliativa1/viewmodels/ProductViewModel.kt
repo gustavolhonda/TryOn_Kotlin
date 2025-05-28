@@ -34,6 +34,12 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
     private val _favorites = mutableStateMapOf<Int, Boolean>()
     val favorites: Map<Int, Boolean> get() = _favorites
 
+    private val _showToast = mutableStateOf(false)
+    val showToast: State<Boolean> = _showToast
+
+    private val _toastMessage = mutableStateOf("")
+    val toastMessage: State<String> = _toastMessage
+
     private val cartRepository = CartRepository(application)
 
     init {
@@ -74,6 +80,9 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
                     }}
                     ============================================
                 """.trimIndent())
+
+                _toastMessage.value = "Produto adicionado ao carrinho!"
+                _showToast.value = true
             }
         }
     }
@@ -104,5 +113,9 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
 
     fun initializeSelectedImage(imageUrl: String?) {
         _selectedImage.value = imageUrl
+    }
+
+    fun resetToast() {
+        _showToast.value = false
     }
 }

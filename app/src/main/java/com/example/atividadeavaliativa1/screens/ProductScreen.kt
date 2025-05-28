@@ -1,6 +1,7 @@
 package com.example.atividadeavaliativa1.screens
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -35,6 +37,17 @@ fun ProductScreen(
     productViewModel: ProductViewModel,
     onBackClick: () -> Unit
 ) {
+    val showToast by productViewModel.showToast
+    val toastMessage by productViewModel.toastMessage
+    val context = LocalContext.current
+
+    LaunchedEffect(showToast) {
+        if (showToast) {
+            Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
+            productViewModel.resetToast()
+        }
+    }
+
     LaunchedEffect(product.id) {
         productViewModel.initializeSelectedImage(product.image.firstOrNull())
         productViewModel.initFavorite(product.id, product.isFavorite ?: false)
