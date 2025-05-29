@@ -40,6 +40,6 @@ Para executar os testes de instrumentação:
 - `app/src/androidTest/java` - Testes de persistencia local
 
 ## Backend
-1. Clone o repositório https://github.com/gustavolhonda/mocked-backend-tryon
-2. E rode ele localmente na porta 3001, assim o emulador consegue acessá-lo.
+1. Clone o repositório https://github.com/gustavolhonda/mocked-backend-tryon e siga as instruções do READ.ME
+2. Rode ele localmente na porta 3001, assim o emulador consegue acessá-lo.
 3. No back é feito a parte de login e a listagem de produtos.
