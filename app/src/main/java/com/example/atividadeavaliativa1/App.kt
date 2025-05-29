@@ -17,6 +17,7 @@ import com.example.atividadeavaliativa1.screens.ProductScreen
 import com.example.atividadeavaliativa1.screens.RegisterScreen
 import com.example.atividadeavaliativa1.viewmodels.ProductViewModel
 
+// define as rotas -> cada objeto uma tela
 sealed class Screen(val route: String) {
     object Login : Screen("login")
     object Main : Screen("main")
@@ -33,6 +34,8 @@ fun App(
     val productViewModel: ProductViewModel = viewModel()
 
     Scaffold { innerPadding ->
+        // NavHost gerencia as rotas da aplicação e mostra a tela correta de acordo com a rota atual.
+        // Cada composable(route) define uma "tela" que será mostrada quando a rota for selecionada.
         NavHost(
             navController = navController,
             startDestination = startingRoute

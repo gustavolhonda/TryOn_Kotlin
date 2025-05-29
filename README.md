@@ -1,10 +1,11 @@
 # TryOn Kotlin
 
-Aplicativo Android desenvolvido em Kotlin Aluguel de roupas.
+Aplicativo Android desenvolvido em Kotlin para Aluguel de roupas.
 
 ## Membros
 
 811773 - Jakson Huang Zheng
+
 811716 - Gustavo Lamin Honda
 
 ## Como Buildar

@@ -17,20 +17,24 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ProductViewModel(application: Application) : AndroidViewModel(application) {
+    // mantém a URL da imagem selecionada para mostrar na tela.
     private val _selectedImage = mutableStateOf<String?>(null)
     val selectedImage: State<String?> get() = _selectedImage
 
-    private val _selectedSize = mutableStateOf<String?>(null)
-    val selectedSize: State<String?> get() = _selectedSize
+    // mapa que armazena o tamanho selecionado para cada produto (chave = id do produto).
+    private val _selectedSizes = mutableStateMapOf<Int, String?>()
+    val selectedSizes: Map<Int, String?> get() = _selectedSizes
 
+    // StateFlow que guarda o produto atualmente selecionado (fluxo reativo).
     private val _selectedProduct = MutableStateFlow<Product?>(null)
     val selectedProduct: StateFlow<Product?>
         get() = _selectedProduct
 
+    // lista observável dos itens no carrinho.
     private val _cartItems = mutableStateListOf<CartItem>()
     val cartItems: List<CartItem> = _cartItems
 
-    // Novo: Mapa para gerenciar os estados de favorito por produto ID
+    // Novo: mapa que guarda o estado "favorito" de cada produto pelo seu id.
     private val _favorites = mutableStateMapOf<Int, Boolean>()
     val favorites: Map<Int, Boolean> get() = _favorites
 
@@ -102,8 +106,16 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
         return _favorites[productId] ?: false
     }
 
-    fun selectSize(size: String?) {
-        _selectedSize.value = size
+    fun selectSize(productId: Int, size: String?) {
+        if (size == null) {
+            _selectedSizes.remove(productId)
+        } else {
+            _selectedSizes[productId] = size
+        }
+    }
+
+    fun getSelectedSize(productId: Int): String? {
+        return _selectedSizes[productId]
     }
 
 

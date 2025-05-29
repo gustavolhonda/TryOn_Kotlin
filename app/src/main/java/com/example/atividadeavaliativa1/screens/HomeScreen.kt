@@ -19,6 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
@@ -52,6 +54,7 @@ fun HomeScreen(
     val products by viewModel::products
     val isLoading by viewModel::isLoading
     val error by viewModel::error
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
         viewModel.loadProducts()
@@ -60,6 +63,7 @@ fun HomeScreen(
     Column( 
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
     ) {
         // HEADER
         Row(
@@ -194,7 +198,14 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(products) { product ->
-                        ProductCard(product = product, navController, productViewModel)
+                        val isFavorite = productViewModel.isFavorite(product.id)
+                        ProductCard(
+                            product = product,
+                            isFavorite = isFavorite,
+                            onToggleFavorite = { productViewModel.toggleFavorite(product.id) },
+                            navController = navController,
+                            productViewModel = productViewModel
+                        )
                     }
                 }
             }
@@ -346,12 +357,12 @@ fun HomeScreenPreview() {
 @Composable
 fun ProductCard(
     product: Product,
+    isFavorite: Boolean,
+    onToggleFavorite: () -> Unit,
     navController: NavController,
     productViewModel: ProductViewModel,
     modifier: Modifier = Modifier
 ) {
-    var isFavorite by remember { mutableStateOf(false) }
-
     Card(
         onClick = {
             productViewModel.selectProduct(product)
@@ -362,10 +373,7 @@ fun ProductCard(
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(140.dp)
-        ) {
+        Box(modifier = Modifier.fillMaxWidth().height(140.dp)) {
             AsyncImage(
                 model = product.image[0],
                 contentDescription = product.name,
@@ -373,11 +381,8 @@ fun ProductCard(
                 contentScale = ContentScale.Crop
             )
             IconButton(
-                onClick = { isFavorite = !isFavorite },
-                modifier = Modifier
-                    .align(TopEnd)
-                    .padding(8.dp)
-                    .size(28.dp)
+                onClick = { onToggleFavorite() },
+                modifier = Modifier.align(TopEnd).padding(8.dp).size(28.dp)
             ) {
                 Icon(
                     imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
