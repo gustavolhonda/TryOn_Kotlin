@@ -20,8 +20,8 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
     private val _selectedImage = mutableStateOf<String?>(null)
     val selectedImage: State<String?> get() = _selectedImage
 
-    private val _selectedSize = mutableStateOf<String?>(null)
-    val selectedSize: State<String?> get() = _selectedSize
+    private val _selectedSizes = mutableStateMapOf<Int, String?>()
+    val selectedSizes: Map<Int, String?> get() = _selectedSizes
 
     private val _selectedProduct = MutableStateFlow<Product?>(null)
     val selectedProduct: StateFlow<Product?>
@@ -102,8 +102,16 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
         return _favorites[productId] ?: false
     }
 
-    fun selectSize(size: String?) {
-        _selectedSize.value = size
+    fun selectSize(productId: Int, size: String?) {
+        if (size == null) {
+            _selectedSizes.remove(productId)
+        } else {
+            _selectedSizes[productId] = size
+        }
+    }
+
+    fun getSelectedSize(productId: Int): String? {
+        return _selectedSizes[productId]
     }
 
 
