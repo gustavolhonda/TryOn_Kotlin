@@ -52,6 +52,8 @@ fun ProductScreen(
         }
     }
 
+    // Toda vez que o produto mudar, inicializa a imagem principal com a primeira da lista e o estado do favorito.
+    // Elvis -> se existir retorna o próprio elemento, senão retorna o do outro lado
     LaunchedEffect(product.id) {
         productViewModel.initializeSelectedImage(product.image.firstOrNull())
         productViewModel.initFavorite(product.id, product.isFavorite ?: false)
@@ -98,7 +100,7 @@ fun ProductScreen(
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Imagem principal do produto
+            // Imagem principal do produto -> cortada se não couber no tamanho
             AsyncImage(
                 model = selectedImage,
                 contentDescription = product.name,
