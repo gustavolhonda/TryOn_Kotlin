@@ -19,9 +19,7 @@ import com.example.atividadeavaliativa1.viewmodels.ProductViewModel
 
 sealed class Screen(val route: String) {
     object Login : Screen("login")
-    object Home : Screen("home")
-    object Orders : Screen("orders")
-    object Notifications : Screen("notifications")
+    object Main : Screen("main")
     object RegisterUser : Screen("register_user")
     object ForgetPassword : Screen("forget_password")
     object Product : Screen("product")
@@ -32,7 +30,6 @@ fun App(
     navController: NavHostController = rememberNavController(),
     startingRoute: String = "login"
 ) {
-
     val productViewModel: ProductViewModel = viewModel()
 
     Scaffold { innerPadding ->
@@ -43,7 +40,7 @@ fun App(
             composable(Screen.Login.route) {
                 LoginScreen(
                     onSuccessfulLogin = {
-                        navController.navigate(Screen.Home.route) {
+                        navController.navigate(Screen.Main.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     },
@@ -55,13 +52,7 @@ fun App(
                     }
                 )
             }
-            composable(Screen.Home.route) {
-                NavBarLayout(navController, productViewModel)
-            }
-            composable(Screen.Orders.route) {
-                NavBarLayout(navController, productViewModel)
-            }
-            composable(Screen.Notifications.route) {
+            composable(Screen.Main.route) {
                 NavBarLayout(navController, productViewModel)
             }
             composable(Screen.ForgetPassword.route) {
@@ -78,7 +69,7 @@ fun App(
                 } else {
                     LaunchedEffect(Unit) {
                         if (!navController.popBackStack()) {
-                            navController.navigate(Screen.Home.route)
+                            navController.navigate(Screen.Main.route)
                         }
                     }
                 }

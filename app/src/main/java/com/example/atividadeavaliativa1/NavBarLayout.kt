@@ -18,7 +18,6 @@ import com.example.atividadeavaliativa1.viewmodels.ProductViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavBarLayout(navController: NavController, productViewModel: ProductViewModel) {
-    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
     var selectedItem by remember { mutableStateOf(0) }
 
     Scaffold(
@@ -29,12 +28,9 @@ fun NavBarLayout(navController: NavController, productViewModel: ProductViewMode
                 NavigationBarItem(
                     icon = { Icon(Icons.Filled.Home, contentDescription = stringResource(R.string.navbar_home_description)) },
                     label = { Text(stringResource(R.string.navbar_home_description)) },
-                    selected = currentRoute == Screen.Home.route,
+                    selected = selectedItem == 0,
                     onClick = {
                         selectedItem = 0
-                        navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.Home.route) { inclusive = true }
-                        }
                     },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = MaterialTheme.colorScheme.primary,
@@ -47,12 +43,9 @@ fun NavBarLayout(navController: NavController, productViewModel: ProductViewMode
                 NavigationBarItem(
                     icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = stringResource(R.string.navbar_orders_description)) },
                     label = { Text(stringResource(R.string.navbar_orders_description)) },
-                    selected = currentRoute == Screen.Orders.route,
+                    selected = selectedItem == 1,
                     onClick = {
                         selectedItem = 1
-                        navController.navigate(Screen.Orders.route) {
-                            popUpTo(Screen.Home.route)
-                        }
                     },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = MaterialTheme.colorScheme.primary,
@@ -65,12 +58,9 @@ fun NavBarLayout(navController: NavController, productViewModel: ProductViewMode
                 NavigationBarItem(
                     icon = { Icon(Icons.Filled.Notifications, contentDescription = stringResource(R.string.navbar_notifications_description)) },
                     label = { Text(stringResource(R.string.navbar_notifications_description)) },
-                    selected = currentRoute == Screen.Notifications.route,
+                    selected = selectedItem == 2,
                     onClick = {
                         selectedItem = 2
-                        navController.navigate(Screen.Notifications.route) {
-                            popUpTo(Screen.Home.route)
-                        }
                     },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = MaterialTheme.colorScheme.primary,
@@ -84,10 +74,10 @@ fun NavBarLayout(navController: NavController, productViewModel: ProductViewMode
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            when (currentRoute) {
-                Screen.Home.route -> HomeScreen(navController, productViewModel)
-                Screen.Orders.route -> OrdersScreen()
-                Screen.Notifications.route -> NotificationsScreen()
+            when (selectedItem) {
+                0 -> HomeScreen(navController, productViewModel)
+                1 -> OrdersScreen()
+                2 -> NotificationsScreen()
             }
         }
     }
